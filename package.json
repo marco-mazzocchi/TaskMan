@@ -27,8 +27,8 @@
     "cleanup": "mop -v"
   },
   "build": {
-    "productName": "ToDo",
-    "appId": "com.dflabs.ToDo",
+    "productName": "taskMan",
+    "appId": "com.dflabs.taskMan",
     "category": "public.app-category.tools",
     "dmg": {
       "contents": [
@@ -172,7 +172,6 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-edit-inline": "^1.0.8",
-    "react-photonkit": "^0.4.1",
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
@@ -183,8 +182,7 @@
     "redux-thunk": "^2.1.0",
     "rxjs": "^5.0.3",
     "sortablejs": "^1.5.0-rc1",
-    "source-map-support": "^0.4.8",
-    "winston-electron": "0.0.3"
+    "source-map-support": "^0.4.8"
   },
   "devEngines": {
     "node": ">=6.x",

@@ -67,21 +67,16 @@ export class Task extends Storage {
   static collection = db.tasks;
 
   static complete(taskId) {
-    elog.info("complete called");
     const _this = this;
     return new Promise (
       (resolve, reject) => {
-        elog.info("complete promise executed");
         _this.collection.findOne({ _id: taskId }, function (err, task) {
-          elog.info("findOne called");
           if(err) {
-            elog.error(err);
             reject(err);
           }
           task.completed = !task.completed;
           _this.collection.update({ _id: taskId }, task, {}, function (err, numReplaced) {
             if(err) {
-              elog.error(err);
               reject(err);
             }
             else resolve(task);

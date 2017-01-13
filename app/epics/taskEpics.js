@@ -4,8 +4,6 @@ import {
 } from '../actions/taskActions';
 import { Observable } from 'rxjs';
 import { Task } from '../storage';
-import { remote } from 'electron';
-const elog = remote.getGlobal('elog');
 
 export const addTaskEpic = action$ =>
   action$
@@ -29,7 +27,6 @@ export const completeTaskEpic = action$ =>
   action$
     .ofType(COMPLETE_TASK)
     .mergeMap((action) => {
-      elog.info('merge map in epic');
       return Observable.fromPromise(Task.complete(action.payload)).map(task => taskUpdated(task))
     })
     .catch(error => addTaskError(error))

@@ -1,8 +1,8 @@
 {
-  "name": "todo",
-  "productName": "todo",
+  "name": "taskMan",
+  "productName": "taskMan",
   "version": "1.0.0",
-  "description": "A todo list manager",
+  "description": "A task manager",
   "main": "./main.js",
   "license": "MIT",
   "author": {
