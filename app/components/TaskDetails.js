@@ -2,15 +2,17 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
-import TextField from 'material-ui/TextField';
-import * as taskActions from '../actions/taskActions';
-import InlineEdit from 'react-edit-inline';
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import FontIcon from 'material-ui/FontIcon'
+import Avatar from 'material-ui/Avatar'
+import TextField from 'material-ui/TextField'
+import * as taskActions from '../actions/taskActions'
+import InlineEdit from 'react-edit-inline'
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card'
 
 class TaskDetails extends React.Component {
 
@@ -131,10 +133,23 @@ class TaskDetails extends React.Component {
     );
   }
 
+  getStatusIcon(completed) {
+    if(completed) {
+      return (
+        <FontIcon className="material-icons">done</FontIcon>
+      );
+    }
+    else {
+      return (
+        <FontIcon className="material-icons"></FontIcon>
+      );
+    }
+  }
+
   render() {
 
     let styles = {
-      'paddingLeft': '270px'
+
     };
     let noTaskStyles = {
       'textAlign': 'center'
@@ -153,7 +168,7 @@ class TaskDetails extends React.Component {
 
       let completeButton;
       if(currentTaskData.completed) {
-        completeButton = <RaisedButton
+        completeButton = <FlatButton
           onClick={ this.handleCompleteTask }
           label="Uncomplete"
           primary={true}
@@ -161,7 +176,7 @@ class TaskDetails extends React.Component {
         />;
       }
       else {
-        completeButton = <RaisedButton
+        completeButton = <FlatButton
           onClick={ this.handleCompleteTask }
           label="Complete"
           primary={true}
@@ -171,35 +186,47 @@ class TaskDetails extends React.Component {
 
       return (
         <div style={styles}>
-            <h3>
-              <InlineEdit
+
+          <Card>
+            <CardTitle
+              title={
+                <div>
+                  <Avatar icon={this.getStatusIcon(currentTaskData.completed)} />
+                  <InlineEdit
+                    activeClassName="editing"
+                    text={currentTaskData.title}
+                    paramName="title"
+                    change={this.handleInlineChange}
+                    style={{
+                      marginLeft: '20px',
+                      borderBottom: 'dashed 1px #ddd'
+                    }}
+                  />
+                </div>
+              }
+            />
+            <CardText>
+              <p><InlineEdit
                 activeClassName="editing"
-                text={currentTaskData.title}
-                paramName="title"
+                text={currentTaskData.description}
+                paramName="description"
                 change={this.handleInlineChange}
                 style={{
                   borderBottom: 'dashed 1px #ddd'
                 }}
+              /></p>
+            </CardText>
+            <CardActions>
+              { completeButton }
+
+              <FlatButton
+                onClick={ this.handleDeleteTask }
+                label="Delete"
+                secondary={true}
+                icon={ <FontIcon className="material-icons">delete</FontIcon>}
               />
-            </h3>
-            <p><InlineEdit
-              activeClassName="editing"
-              text={currentTaskData.description}
-              paramName="description"
-              change={this.handleInlineChange}
-              style={{
-                borderBottom: 'dashed 1px #ddd'
-              }}
-            /></p>
-
-            { completeButton }
-
-            <RaisedButton
-              onClick={ this.handleDeleteTask }
-              label="Delete"
-              secondary={true}
-              icon={ <FontIcon className="material-icons">delete</FontIcon>}
-            />
+            </CardActions>
+          </Card>
 
             { this.renderAddButton() }
         </div>

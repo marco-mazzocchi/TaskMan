@@ -10,13 +10,14 @@ export default class Home extends Component {
 
   render() {
     return (
-        <div>
+      <div className="mdl-grid">
+        <div className="mdl-cell mdl-cell--4-col">
           <Sidebar />
-          <TaskDetails />
-          <div style={{ paddingLeft: '270px', marginTop: '30px' }}>
-            <small>DB location: { taskDBPath }</small>
-          </div>
         </div>
+        <div className="mdl-cell mdl-cell--8-col">
+          <TaskDetails />
+        </div>
+      </div>
     );
   }
 }

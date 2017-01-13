@@ -70,14 +70,10 @@ class Sidebar extends Component {
   render() {
 
     return (
-      <Drawer open={true} docked={true}>
-
-          <SelectableList>
-              <Subheader><h4>Stuff to do</h4></Subheader>
-              { this.taskListRender() }
-            </SelectableList>
-
-      </Drawer>
+      <SelectableList>
+        <Subheader><h4>Stuff to do</h4></Subheader>
+        { this.taskListRender() }
+      </SelectableList>
     );
   }
 
