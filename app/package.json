@@ -1,0 +1,13 @@
+{
+  "name": "todo",
+  "productName": "todo",
+  "version": "1.0.0",
+  "description": "A todo list manager",
+  "main": "./main.js",
+  "license": "MIT",
+  "author": {
+    "name" : "Marco Mazzocchi"
+  },
+  "dependencies": {
+  }
+}
