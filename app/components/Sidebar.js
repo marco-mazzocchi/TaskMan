@@ -41,12 +41,23 @@ class Sidebar extends Component {
   }
 
   taskListRender() {
-    // sort by completed
+    // sort by group
     const taskList = this.props.tasks.sort((a, b) => {
-      if(a.completed == b.completed) {
-        return 0;
+      const firstGroup = (a.group) ? a.group.toUpperCase() : '';
+      const secondGroup = (b.group) ? b.group.toUpperCase() : '';
+      if(firstGroup == secondGroup) {
+        // sort by completed
+        if(a.completed == b.completed) {
+          return 0;
+        }
+        else if(a.completed == true) {
+          return 1;
+        }
+        else {
+          return -1;
+        }
       }
-      else if(a.completed == true) {
+      else if(firstGroup > secondGroup) {
         return 1;
       }
       else {
@@ -54,8 +65,18 @@ class Sidebar extends Component {
       }
     });
 
+    let lastGroup = '';
     return taskList.map((task, key) => {
-      return (
+
+      let returnComponents = [];
+      const taskGroup = (task.group) ? task.group.toUpperCase() : 'OTHER';
+
+      if(lastGroup !== taskGroup) {
+        lastGroup = taskGroup;
+        returnComponents.push(<Subheader>{ lastGroup }</Subheader>);
+      }
+
+      returnComponents.push(
         <ListItem
           key={key}
           value={task._id}
@@ -64,6 +85,9 @@ class Sidebar extends Component {
           onClick={this.onTaskItemClick.bind(this, task._id)}
         />
       );
+
+      return returnComponents;
+
     })
   }
 
@@ -71,7 +95,6 @@ class Sidebar extends Component {
 
     return (
       <SelectableList>
-        <Subheader><h4>Stuff to do</h4></Subheader>
         { this.taskListRender() }
       </SelectableList>
     );

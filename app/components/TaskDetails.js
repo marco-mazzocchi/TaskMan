@@ -21,7 +21,8 @@ class TaskDetails extends React.Component {
     this.state = {
       "addTaskModalVisible": false,
       "newTitle": '',
-      'newDescription': ''
+      'newDescription': '',
+      'newGroup': 'other',
     };
   }
 
@@ -41,6 +42,7 @@ class TaskDetails extends React.Component {
     const task = {
       title: this.state.newTitle,
       description: this.state.newDescription,
+      group: this.state.newGroup,
       completed: false
     };
 
@@ -51,7 +53,8 @@ class TaskDetails extends React.Component {
     // empty form fields
     this.setState({
       "newTitle": '',
-      "newDescription": ''
+      "newDescription": '',
+      "newGroup": 'other',
     });
   }
 
@@ -64,6 +67,12 @@ class TaskDetails extends React.Component {
   handleNewDescriptionChange = (event) => {
     this.setState({
       "newDescription": event.target.value
+    });
+  }
+
+  handleNewGroupChange = (event) => {
+    this.setState({
+      "newGroup": event.target.value.trim()
     });
   }
 
@@ -120,9 +129,16 @@ class TaskDetails extends React.Component {
             />
             <br />
             <TextField
+              floatingLabelText="Group"
+              fullWidth={true}
+              value={this.state.newGroup}
+              onChange={this.handleNewGroupChange}
+            />
+            <br />
+            <TextField
               floatingLabelText="Description"
               multiLine={true}
-              rows={2}
+              rows={1}
               rowsMax={4}
               value={this.state.newDescription}
               onChange={this.handleNewDescriptionChange}
@@ -188,25 +204,30 @@ class TaskDetails extends React.Component {
         <div style={styles}>
 
           <Card>
-            <CardTitle
-              title={
-                <div>
-                  <Avatar icon={this.getStatusIcon(currentTaskData.completed)} />
-                  <InlineEdit
-                    activeClassName="editing"
-                    text={currentTaskData.title}
-                    paramName="title"
-                    change={this.handleInlineChange}
-                    style={{
-                      marginLeft: '20px',
-                      borderBottom: 'dashed 1px #ddd'
-                    }}
-                  />
-                </div>
-              }
+            <CardHeader
+              title={<InlineEdit
+                activeClassName="editing"
+                text={currentTaskData.title}
+                paramName="title"
+                change={this.handleInlineChange}
+                style={{
+                  borderBottom: 'dashed 1px #ddd'
+                }}
+              />}
+              subtitle={<InlineEdit
+                activeClassName="editing"
+                text={currentTaskData.group || this.state.newGroup}
+                paramName="group"
+                change={this.handleInlineChange}
+                style={{
+                  borderBottom: 'dashed 1px #ddd'
+                }}
+              />}
+              avatar={<Avatar icon={this.getStatusIcon(currentTaskData.completed)} />}
             />
             <CardText>
-              <p><InlineEdit
+              <p>
+                <InlineEdit
                 activeClassName="editing"
                 text={currentTaskData.description}
                 paramName="description"
@@ -214,7 +235,8 @@ class TaskDetails extends React.Component {
                 style={{
                   borderBottom: 'dashed 1px #ddd'
                 }}
-              /></p>
+                />
+              </p>
             </CardText>
             <CardActions>
               { completeButton }
