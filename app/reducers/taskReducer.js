@@ -2,14 +2,12 @@ import * as actions from '../actions/taskActions';
 
 const defaultState = {
   currentTask: null,
-  items: [],
-  errors: []
+  items: []
 };
 
 const taskReducer = (state = defaultState, action) => {
 
   let tasksList = Object.assign([], state.items);
-  let errorList = Object.assign([], state.errors);
 
   switch(action.type) {
       case actions.SET_CURRENT_TASK:

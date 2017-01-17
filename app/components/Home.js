@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import styles from './Home.css';
 import Sidebar from './Sidebar';
 import TaskDetails from './TaskDetails';
-import { taskDBPath } from '../storage'
 
 export default class Home extends Component {
 

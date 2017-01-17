@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as appActions from '../actions/appActions';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { blue800, blue900, deepOrange500, deepOrange600 } from 'material-ui/styles/colors';
+import { blue800, blue700, deepOrange500, deepOrange400 } from 'material-ui/styles/colors';
 import AppBar from 'material-ui/AppBar';
 
 class App extends Component {
@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   handleRequestClose = () => {
-    this.props.dispatch(appActions.removeError());
+    this.props.dispatch(appActions.removeNotification());
   };
 
   render() {
@@ -26,9 +26,9 @@ class App extends Component {
     const muiTheme = getMuiTheme({
       palette: {
         primary1Color: blue800,
-        primary2Color: blue900,
+        primary2Color: blue700,
         accent1Color: deepOrange500,
-        accent2Color: deepOrange600,
+        accent2Color: deepOrange400,
       },
       appBar: {
         height: 50,
@@ -46,8 +46,8 @@ class App extends Component {
         {this.props.children}
 
         <Snackbar
-          open={this.props.error.show}
-          message={this.props.error.message}
+          open={this.props.notification.show}
+          message={this.props.notification.message}
           autoHideDuration={3000}
           onRequestClose={this.handleRequestClose}
         />
@@ -59,7 +59,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    error: state.app.error,
+    notification: state.app.notification,
   };
 }
 

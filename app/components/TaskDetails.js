@@ -43,7 +43,8 @@ class TaskDetails extends React.Component {
       title: this.state.newTitle,
       description: this.state.newDescription,
       group: this.state.newGroup,
-      completed: false
+      completed: false,
+      archived: false
     };
 
     const newTask = this.props.addTask(task);
@@ -82,6 +83,10 @@ class TaskDetails extends React.Component {
 
   handleCompleteTask = () => {
     this.props.completeTask(this.props.currentTask);
+  }
+
+  handleArchiveTask = () => {
+    this.props.archiveTask(this.props.currentTask);
   }
 
   handleInlineChange = (update) => {
@@ -188,7 +193,7 @@ class TaskDetails extends React.Component {
           onClick={ this.handleCompleteTask }
           label="Uncomplete"
           primary={true}
-          icon={ <FontIcon className="material-icons">undo</FontIcon>}
+          icon={ <FontIcon className="material-icons">undo</FontIcon> }
         />;
       }
       else {
@@ -196,50 +201,71 @@ class TaskDetails extends React.Component {
           onClick={ this.handleCompleteTask }
           label="Complete"
           primary={true}
-          icon={ <FontIcon className="material-icons">check</FontIcon>}
+          icon={ <FontIcon className="material-icons">check</FontIcon> }
         />;
       }
+
+      let archiveButton;
+      let taskArchived = '';
+      if(currentTaskData.archived) {
+        taskArchived = <small>[archived]</small>;
+        archiveButton = <FlatButton
+          onClick={ this.handleArchiveTask }
+          label="Unarchive"
+          primary={true}
+          icon={ <FontIcon className="material-icons">archive</FontIcon> }
+        />;
+      }
+      else {
+        archiveButton = <FlatButton
+          onClick={ this.handleArchiveTask }
+          label="Archive"
+          primary={true}
+          icon={ <FontIcon className="material-icons">unarchive</FontIcon> }
+        />;
+      }
+
+      const inlineElementStyle = {
+        borderBottom: 'dashed 1px #ddd',
+        outline: 'none'
+      };
 
       return (
         <div style={styles}>
 
           <Card>
             <CardHeader
-              title={<InlineEdit
-                activeClassName="editing"
+              title={<span><InlineEdit
+                activeClassName='mdl-textfield__input'
                 text={currentTaskData.title}
                 paramName="title"
                 change={this.handleInlineChange}
-                style={{
-                  borderBottom: 'dashed 1px #ddd'
-                }}
-              />}
+                style={inlineElementStyle}
+              /> {taskArchived}</span>}
               subtitle={<InlineEdit
-                activeClassName="editing"
+                activeClassName='mdl-textfield__input'
                 text={currentTaskData.group || this.state.newGroup}
                 paramName="group"
                 change={this.handleInlineChange}
-                style={{
-                  borderBottom: 'dashed 1px #ddd'
-                }}
+                style={inlineElementStyle}
               />}
               avatar={<Avatar icon={this.getStatusIcon(currentTaskData.completed)} />}
             />
             <CardText>
               <p>
                 <InlineEdit
-                activeClassName="editing"
+                activeClassName="mdl-textfield__input"
                 text={currentTaskData.description}
                 paramName="description"
                 change={this.handleInlineChange}
-                style={{
-                  borderBottom: 'dashed 1px #ddd'
-                }}
+                style={inlineElementStyle}
                 />
               </p>
             </CardText>
             <CardActions>
               { completeButton }
+
+              { archiveButton }
 
               <FlatButton
                 onClick={ this.handleDeleteTask }

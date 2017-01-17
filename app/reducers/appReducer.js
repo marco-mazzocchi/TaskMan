@@ -1,23 +1,40 @@
-import * as taskActions from '../actions/taskActions';
-import * as appActions from '../actions/appActions';
+import * as taskActions from '../actions/taskActions'
+import * as appActions from '../actions/appActions'
+import { dottedKeyToObject } from '../utils/object'
 
 const actions = {...taskActions, ...appActions};
 
 const defaultState = {
-  error: {
+  notification: {
     message: '',
     show: false
+  },
+  settings: {
+    tasks:
+      {
+        showCompleted: true,
+        showArchived: false
+      }
   }
 };
 
 const appReducer = (state = defaultState, action) => {
 
   switch(action.type) {
-      case actions.ADD_TASK_ERROR:
-        const error = action.payload;
-        return Object.assign({}, state, {error: { message: error, show: true}});
-      case actions.REMOVE_ERROR:
-        return Object.assign({}, state, {error: defaultState.error});
+      case actions.SHOW_NOTIFICATION:
+        const message = action.payload;
+        return Object.assign({}, state, {notification: { message: message, show: true}});
+        break;
+      case actions.REMOVE_NOTIFICATION:
+        return Object.assign({}, state, {notification: defaultState.notification});
+        break;
+      case actions.SETTING_UPDATED:
+         const { value, section } = action.payload;
+         let clonedState = Object.assign({}, state);
+         clonedState.settings[section] = {...clonedState.settings[section], ...value};
+        return clonedState;
+      return state;
+        break;
       default:
         return state;
   }

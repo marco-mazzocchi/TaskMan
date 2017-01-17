@@ -1,12 +1,11 @@
 import { remote } from 'electron';
 import nedb from 'nedb';
 import path from 'path';
+import * as actions from '../actions/appActions';
+
 const elog = remote.getGlobal('elog');
 
-let db = {};
-export const taskDBPath = path.join(remote.app.getPath('userData'), 'storage/tasks.db');
-db.tasks = new nedb(taskDBPath);
-db.tasks.loadDatabase();
+export let db = {};
 
 export class Storage {
 
@@ -62,29 +61,12 @@ export class Storage {
 
 }
 
-export class Task extends Storage {
-
-  static collection = db.tasks;
-
-  static complete(taskId) {
-    const _this = this;
-    return new Promise (
-      (resolve, reject) => {
-        _this.collection.findOne({ _id: taskId }, function (err, task) {
-          if(err) {
-            reject(err);
-          }
-          task.completed = !task.completed;
-          _this.collection.update({ _id: taskId }, task, {}, function (err, numReplaced) {
-            if(err) {
-              reject(err);
-            }
-            else resolve(task);
-          });
-        });
-    });
-  }
-
-}
-
-export default db;
+export const ErrorObservable = (error) => {
+  return Observable.of(
+    {
+      type: actions.SHOW_NOTIFICATION,
+      payload: error.message,
+      error: true
+    }
+  );
+};
