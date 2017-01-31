@@ -249,7 +249,7 @@ class TaskDetails extends React.Component {
                 change={this.handleInlineChange}
                 style={inlineElementStyle}
               />}
-              avatar={<Avatar icon={this.getStatusIcon(currentTaskData.completed)} />}
+              avatar={<Avatar icon={this.getStatusIcon(currentTaskData.completed)} backgroundColor='#42A5F5' />}
             />
             <CardText>
               <p>

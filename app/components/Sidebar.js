@@ -103,7 +103,7 @@ class Sidebar extends Component {
           key={key}
           value={task._id}
           primaryText={task.title}
-          leftAvatar={<Avatar icon={this.getStatusIcon(task.completed)} />}
+          leftAvatar={<Avatar icon={this.getStatusIcon(task.completed)} backgroundColor='#42A5F5' />}
           onClick={this.onTaskItemClick.bind(this, task._id)}
         />
       );
@@ -133,7 +133,7 @@ class Sidebar extends Component {
             value='archived'
           />
         </div>
-        <SelectableList>
+        <SelectableList value={this.props.currentTask}>
           { this.taskListRender() }
         </SelectableList>
       </div>
@@ -145,6 +145,7 @@ class Sidebar extends Component {
 function mapStateToProps(state) {
   return {
     tasks: state.tasks.items,
+    currentTask: state.tasks.currentTask,
     settings: state.app.settings.tasks,
   };
 }
