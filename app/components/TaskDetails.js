@@ -13,6 +13,7 @@ import TextField from 'material-ui/TextField'
 import * as taskActions from '../actions/taskActions'
 import InlineEdit from 'react-edit-inline'
 import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card'
+import {Scrollbars} from 'react-custom-scrollbars'
 
 class TaskDetails extends React.Component {
 
@@ -143,8 +144,8 @@ class TaskDetails extends React.Component {
             <TextField
               floatingLabelText="Description"
               multiLine={true}
-              rows={1}
-              rowsMax={4}
+              rows={4}
+              rowsMax={6}
               value={this.state.newDescription}
               onChange={this.handleNewDescriptionChange}
               fullWidth={true}
@@ -230,54 +231,74 @@ class TaskDetails extends React.Component {
         outline: 'none'
       };
 
+      const inlineTextareStyle = {
+        borderBottom: 'dashed 1px #ddd',
+        outline: 'none',
+        'min-height': '300px'
+      };
+
       return (
-        <div style={styles}>
+           <div style={styles}>
 
-          <Card>
-            <CardHeader
-              title={<span><InlineEdit
-                activeClassName='mdl-textfield__input'
-                text={currentTaskData.title}
-                paramName="title"
-                change={this.handleInlineChange}
-                style={inlineElementStyle}
-              /> {taskArchived}</span>}
-              subtitle={<InlineEdit
-                activeClassName='mdl-textfield__input'
-                text={currentTaskData.group || this.state.newGroup}
-                paramName="group"
-                change={this.handleInlineChange}
-                style={inlineElementStyle}
-              />}
-              avatar={<Avatar icon={this.getStatusIcon(currentTaskData.completed)} backgroundColor='#42A5F5' />}
-            />
-            <CardText>
-              <p>
-                <InlineEdit
-                activeClassName="mdl-textfield__input"
-                text={currentTaskData.description}
-                paramName="description"
-                change={this.handleInlineChange}
-                style={inlineElementStyle}
-                />
-              </p>
-            </CardText>
-            <CardActions>
-              { completeButton }
+             <Card>
+               <CardHeader
+                 title={<span><InlineEdit
+                   activeClassName='mdl-textfield__input'
+                   text={currentTaskData.title}
+                   paramName="title"
+                   change={this.handleInlineChange}
+                   style={inlineElementStyle}
+                 /> {taskArchived}</span>}
+                 subtitle={<InlineEdit
+                   activeClassName='mdl-textfield__input'
+                   text={currentTaskData.group || this.state.newGroup}
+                   paramName="group"
+                   change={this.handleInlineChange}
+                   style={inlineElementStyle}
+                 />}
+                 avatar={<Avatar icon={this.getStatusIcon(currentTaskData.completed)} backgroundColor='#42A5F5' />}
+               />
+               <CardText>
+                 <Scrollbars autoHeight={true} autoHeightMin={350} autoHeightMax={350}>
+                   <InlineEdit
+                   activeClassName="mdl-textfield__input"
+                   text={currentTaskData.description}
+                   paramName="description"
+                   change={this.handleInlineChange}
+                   style={inlineTextareStyle}
+                   editingElement='textarea'
+                   maxLength={100000000000}
+                   />
 
-              { archiveButton }
+                   {/*
+                     <TextField
+                    multiLine={true}
+                    rows={4}
+                    rowsMax={10}
+                    value={currentTaskData.description}
+                    fullWidth={true}
+                    name={description}
+                    onChange={this.handleInlineChange}
+                  />
+                   */}
+                 </Scrollbars>
+               </CardText>
+               <CardActions>
+                 { completeButton }
 
-              <FlatButton
-                onClick={ this.handleDeleteTask }
-                label="Delete"
-                secondary={true}
-                icon={ <FontIcon className="material-icons">delete</FontIcon>}
-              />
-            </CardActions>
-          </Card>
+                 { archiveButton }
 
-            { this.renderAddButton() }
-        </div>
+                 <FlatButton
+                   onClick={ this.handleDeleteTask }
+                   label="Delete"
+                   secondary={true}
+                   icon={ <FontIcon className="material-icons">delete</FontIcon>}
+                 />
+               </CardActions>
+             </Card>
+
+               { this.renderAddButton() }
+           </div>
       );
     }
     else {

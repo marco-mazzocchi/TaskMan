@@ -11,6 +11,7 @@ import FontIcon from 'material-ui/FontIcon'
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
 import * as taskActions from '../actions/taskActions'
 import * as appActions from '../actions/appActions'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 let SelectableList = makeSelectable(List);
 
@@ -133,11 +134,14 @@ class Sidebar extends Component {
             value='archived'
           />
         </div>
-        <SelectableList value={this.props.currentTask}>
-          { this.taskListRender() }
-        </SelectableList>
+        <Scrollbars autoHeight={true} autoHeightMax={500}>
+           <SelectableList value={this.props.currentTask}>
+              { this.taskListRender() }
+           </SelectableList>
+        </Scrollbars>
       </div>
     );
+
   }
 
 }
